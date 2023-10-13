@@ -33,8 +33,7 @@ function isValidRequest({ email, password, password2, type = "login" }) {
 
 const AuthForm = ({ type = "login" }) => {
   const loginStateDispatch = useLoginStateDispatch();
-  const loginState = useLoginState();
-  const isLoggedIn = loginState.isLoggedIn;
+  const { isLoggedIn } = useLoginState();
 
   const router = useRouter();
   const { toast } = useToast();
@@ -76,6 +75,9 @@ const AuthForm = ({ type = "login" }) => {
             type: "login",
             email: res.email,
             userId: res.userId,
+            friends: res.friends,
+            firstName: res.firstName,
+            lastName: res.lastName,
           });
           toast({
             title: "Login successful",
@@ -144,8 +146,6 @@ const AuthForm = ({ type = "login" }) => {
         });
       });
   }
-
-  if (isLoggedIn) return null;
 
   return (
     <div className="flex items-center justify-center grow">
@@ -232,11 +232,11 @@ const AuthForm = ({ type = "login" }) => {
           </Link>
         </div>
         {isLoginForm ? (
-          <Button className="" onClick={handleLogin}>
+          <Button className="" disabled={isLoggedIn} onClick={handleLogin}>
             Login
           </Button>
         ) : (
-          <Button className="" onClick={handleRegister}>
+          <Button className="" disabled={isLoggedIn} onClick={handleRegister}>
             Register
           </Button>
         )}

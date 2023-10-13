@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { createGroup } from "@/utils/firestore/group";
+import { useRef, useState } from "react";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,47 +9,73 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogCloser,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { toast } from "../ui/use-toast";
 
-const initialGroupState = {
+const initialFormState = {
   name: "",
   description: "",
 };
-export function CreateGroup() {
-  const [groupState, setGroupState] = useState(initialGroupState);
+export function CreateGroup({ isLoggedIn }) {
+  const [{ name, description }, setFormState] = useState(initialFormState);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const triggerRef = useRef(null);
 
   function handleChange(e) {
-    setGroupState((prev) => {
+    setFormState((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   }
 
-  function closeModal() {
-    document.querySelector(".dialogCloser").click();
+  function resetForm() {
+    setFormState(initialFormState);
   }
 
-  function handleCreateGroup() {
+  function closeModal() {
+    triggerRef?.current?.click();
+    resetForm();
+  }
+
+  async function handleCreateGroup() {
     //
+    if (!name) {
+      toast({
+        title: "Group name is a required field",
+        description: "",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    await createGroup({ name, description }).then((res) => {
+      if (res.ok) {
+        toast({ title: "Group created." });
+      }
+    });
+
+    setIsLoading(false);
     closeModal();
   }
 
-  useEffect(() => {
-    console.log(groupState);
-  });
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="flex items-center gap-1">
+        <Button
+          ref={triggerRef}
+          onClick={resetForm}
+          className="flex items-center gap-1">
           <span>+</span>
           <span>Create Group</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogCloser className="hidden dialogCloser"></DialogCloser>
+      <DialogContent
+        overlayClassName="z-[100]"
+        className="sm:max-w-[425px] top-[40%] z-[100]">
         <DialogHeader>
           <DialogTitle>Create Group</DialogTitle>
           <DialogDescription>
@@ -64,6 +92,7 @@ export function CreateGroup() {
               name="name"
               className="col-span-3"
               onChange={handleChange}
+              value={name}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -75,11 +104,17 @@ export function CreateGroup() {
               name="description"
               className="col-span-3"
               onChange={handleChange}
+              value={description}
             />
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={handleCreateGroup}>Create Group</Button>
+          <Button
+            loading={isLoading}
+            disabled={!isLoggedIn || isLoading}
+            onClick={handleCreateGroup}>
+            Create Group
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import { useRouter } from "next/router";
+
+const urlsNotAllowed = ["/login", "/logout"];
 
 const Layout = ({ children }) => {
+  const { pathname } = useRouter();
+
+  const noLayout = urlsNotAllowed.includes(pathname);
+  if (noLayout) return <div>{children}</div>;
   return (
     <>
       <Navbar />

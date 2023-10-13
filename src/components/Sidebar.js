@@ -16,15 +16,15 @@ const sidebarOptions = [
     icon: <User width="16" height="16" />,
   },
   // {
-  //   label: "Billing",
-  //   url: "/billing",
-  //   icon: <CreditCard width="16" height="16" />,
+  //   label: "Alerts",
+  //   url: "/alerts",
+  //   icon: <Sprout width="16" height="16" />,
   // },
-  // {
-  //   label: "Settings",
-  //   url: "/settings",
-  //   icon: <Settings width="16" height="16" />,
-  // },
+  {
+    label: "Friends",
+    url: "/friends",
+    icon: <Sprout width="16" height="16" />,
+  },
   {
     label: "About Dev",
     url: "/about",
@@ -43,7 +43,7 @@ const Sidebar = ({ hide = false, isMob = false }) => {
 
   return (
     <aside
-      className={`${isMob ? "" : "w-[200px] fixed"}
+      className={`${isMob ? "flex" : "w-[200px] fixed"}
       ${hide ? "hidden md:flex" : ""} stretch flex-col gap-4 p-4 py-8 `}>
       {sidebarOptions.map(({ label, url, icon }) => {
         return (

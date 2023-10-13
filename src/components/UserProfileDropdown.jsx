@@ -1,56 +1,39 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import Image from "next/image";
 import Link from "next/link";
-import logout from "@/pages/api/auth/logout";
-import { useLoginStateDispatch } from "@/context/login-context";
-import { useToast } from "./ui/use-toast";
 
-const UserProfileDropdown = ({ email }) => {
-  const loginStateDispatch = useLoginStateDispatch();
-  const { toast } = useToast();
-  const profileImageText = email?.slice(0, 2)?.toUpperCase();
-
-  async function handleLogout() {
-    await logout()
-      .then((res) => {
-        console.log(res);
-        if (res.ok) {
-          loginStateDispatch({
-            type: "logout",
-          });
-          toast({
-            title: "Logout Successful",
-            description: "",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast({
-          title: "Unexpected error duing logging out",
-          description: err,
-        });
-      });
-  }
+const UserProfileDropdown = ({ user, handleLogout = () => {} }) => {
+  const photoUrl = user?.photoUrl;
+  const profileImageText = user?.displayName?.slice(0, 2)?.toUpperCase();
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-10 h-10 flex items-center justify-center text-xl rounded-full relative">
-          <span className="absolute h-6 w-6 animate-ping bg-gray-200 rounded-full" />
-          <span className="z-10 h-8 w-8 flex items-center justify-center">
-            {profileImageText}
-          </span>
+          className="w-10 h-10 flex items-center justify-center rounded-full relative">
+          <span className="absolute h-7 w-7 animate-ping bg-black rounded-full" />
+          {photoUrl ? (
+            <Image
+              src={photoUrl}
+              height={32}
+              width={32}
+              className="h-10 min-w-[40px] rounded-full z-10"
+              alt="user-photo"
+            />
+          ) : (
+            <span className="z-10 h-8 w-8 flex text-lg items-center justify-center">
+              {profileImageText}
+            </span>
+          )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-60">
+      <PopoverContent className="w-60 z-[100]">
         <div className="flex flex-col gap-4">
           <Link className="w-full" href={"/profile"}>
             <Button className="w-full" variant="secondary">

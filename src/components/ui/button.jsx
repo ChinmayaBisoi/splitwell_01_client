@@ -3,19 +3,21 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
+import Loader from "../Loader";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default:
+          "bg-primary disabled:bg-primary/50 text-primary-foreground hover:bg-primary/90",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-destructive disabled:bg-destructive/50 text-destructive-foreground hover:bg-destructive/90",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "bg-secondary disabled:bg-secondary/50 text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
@@ -35,7 +37,15 @@ const buttonVariants = cva(
 
 const Button = React.forwardRef(
   (
-    { className, loading = false, variant, size, asChild = false, ...props },
+    {
+      className,
+      loading = false,
+      loaderColor = "white",
+      variant,
+      size,
+      asChild = false,
+      ...props
+    },
     ref
   ) => {
     const Comp = asChild ? Slot : "button";
@@ -46,18 +56,13 @@ const Button = React.forwardRef(
           className={cn(buttonVariants({ variant, size, className }))}
           ref={ref}
           {...props}>
-          {loading ? (
-            <svg
-              className="animate-spin h-5 w-5 mr-3 bg-green-500"
-              viewBox="0 0 24 24"></svg>
-          ) : (
-            <>{props.children}</>
-          )}
+          {loading ? <Loader color={loaderColor} /> : <>{props.children}</>}
         </Comp>
       </>
     );
   }
 );
+
 Button.displayName = "Button";
 
 export { Button, buttonVariants };

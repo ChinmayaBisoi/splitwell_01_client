@@ -1,16 +1,18 @@
-import "@/styles/globals.css";
-import { PostStateProvider } from "@/context/post-context";
+import Layout from "@/components/Layout";
 import { Toaster } from "@/components/ui/toaster";
-import { Poppins } from "next/font/google";
+import { toast } from "@/components/ui/use-toast";
+import { FriendsContextProvider } from "@/context/friends-context";
+import { GroupStateProvider } from "@/context/group-context";
 import {
   LoginStateProvider,
-  useLoginState,
   useLoginStateDispatch,
 } from "@/context/login-context";
-import { useEffect } from "react";
-import checkAuth from "./api/auth/check-auth";
-import { useToast } from "@/components/ui/use-toast";
+import "@/styles/globals.css";
+import { auth, getOrCreateUser } from "@/utils/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { Poppins } from "next/font/google";
 import Head from "next/head";
+import { useEffect } from "react";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -18,36 +20,38 @@ const poppins = Poppins({
 });
 
 function Wrapper({ Component, pageProps }) {
-  const { toast } = useToast();
-  const loginState = useLoginState();
   const loginStateDispatch = useLoginStateDispatch();
-  const isLoggedIn = loginState.isLoggedIn;
-
   useEffect(() => {
-    if (!isLoggedIn) {
-      (async function tryToLogin() {
-        await checkAuth().then((res) => {
-          if (res.ok) {
-            loginStateDispatch({
-              type: "login",
-              email: res.userInfo.email,
-              userId: res.userInfo.id,
-            });
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        await getOrCreateUser(currentUser)
+          .then((user) => {
+            loginStateDispatch({ type: "login", user });
+          })
+          .catch((err) => {
             toast({
-              title: "Login successfull",
-              description: "Automatically logged in <3",
+              title: "Unexpected error while logging in.",
+              description: err.message || "",
+              variant: "destructive",
             });
-          }
-        });
-      })();
-    }
-  }, [isLoggedIn]);
+          });
+      } else {
+        // user not logged in
+        loginStateDispatch({ type: "logout" });
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <div className={`${poppins.className}`}>
       <Head>
         <title>Splitwell | Your Expense Tracker</title>
       </Head>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
       <Toaster />
     </div>
   );
@@ -56,9 +60,11 @@ function Wrapper({ Component, pageProps }) {
 export default function App({ Component, pageProps }) {
   return (
     <LoginStateProvider>
-      <PostStateProvider>
-        <Wrapper Component={Component} pageProps={pageProps} />
-      </PostStateProvider>
+      <FriendsContextProvider>
+        <GroupStateProvider>
+          <Wrapper Component={Component} pageProps={pageProps} />
+        </GroupStateProvider>
+      </FriendsContextProvider>
     </LoginStateProvider>
   );
 }
