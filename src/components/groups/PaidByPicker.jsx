@@ -46,7 +46,7 @@ const PaidByPicker = ({
           : `${splitDetails?.members.length} people`}
       </Button>
       {open && (
-        <div className="fixed top-0 left-0 bg-white p-4 h-full w-full z-[100]">
+        <div className="fixed top-0 left-0 bg-white p-4 h-full w-full z-[100] py-10">
           <div className="flex items-center justify-between mb-4">
             <Button
               onClick={() => {

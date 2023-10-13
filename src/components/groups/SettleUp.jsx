@@ -140,7 +140,7 @@ export default function SettleUp({
       </DialogTrigger>
       <DialogContent
         overlayClassName="z-[100]"
-        className="h-[100vh] z-[100] sm:h-[80vh]">
+        className="h-[100vh] z-[100] sm:h-[80vh] py-10">
         <DialogHeader className="mb-6">
           <DialogTitle className="">Settle Up</DialogTitle>
         </DialogHeader>
@@ -150,6 +150,7 @@ export default function SettleUp({
             <div className="relative">
               <Button
                 onClick={() => {
+                  if (!selectedBalanceIdToSettle) return;
                   setShow(true);
                 }}
                 variant="secondary"
@@ -158,7 +159,7 @@ export default function SettleUp({
                 Next
               </Button>
               {show && (
-                <div className="fixed top-0 left-0 bg-white p-4 h-full w-full z-[100]">
+                <div className="fixed top-0 left-0 bg-white p-4 h-full w-full z-[100] py-10">
                   <div className="flex items-center justify-between mb-6">
                     <Button
                       onClick={() => {

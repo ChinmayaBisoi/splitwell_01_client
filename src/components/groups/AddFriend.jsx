@@ -116,7 +116,7 @@ export function AddFriend({ triggerVariant, isLoggedIn, group = null }) {
       </DialogTrigger>
       <DialogContent
         overlayClassName="z-[100]"
-        className="h-[100vh] z-[100] sm:h-fit sm:top-[40%]">
+        className="h-[100vh] z-[100] sm:h-fit sm:top-[40%] py-10">
         {/* <DialogCloser className="hidden dialogCloser"></DialogCloser> */}
         <DialogHeader className="mb-6">
           <DialogTitle className="flex items-center gap-2">

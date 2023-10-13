@@ -20,7 +20,7 @@ const GroupSettings = ({ groupDetails }) => {
       </DialogTrigger>
       <DialogContent
         overlayClassName="z-[100]"
-        className="h-[100vh] z-[100] w-[100vw]">
+        className="h-[100vh] z-[100] w-[100vw] py-10">
         {/* <DialogCloser className="hidden dialogCloser"></DialogCloser> */}
         <DialogHeader className="mb-6">
           <DialogTitle className="flex items-center gap-2">

@@ -221,7 +221,7 @@ export default function AddExpense({ groupDetails = [], user = null }) {
       </DialogTrigger>
       <DialogContent
         overlayClassName="z-[100]"
-        className="h-[100vh] z-[100] sm:h-[80vh]">
+        className="h-[100vh] z-[100] sm:h-[80vh] py-10">
         {/* <DialogCloser className="hidden dialogCloser"></DialogCloser> */}
         <DialogHeader className="mb-6">
           <DialogTitle className="flex items-center gap-2">
