@@ -31,7 +31,7 @@ const sidebarOptions = [
     icon: <Sprout width="16" height="16" />,
   },
 ];
-const Sidebar = ({ hide = false, isMob = false }) => {
+const Sidebar = ({ hide = false, isMob = false, closeSidebar = () => {} }) => {
   const pathname = usePathname();
 
   const isActive = (url) => {
@@ -47,7 +47,7 @@ const Sidebar = ({ hide = false, isMob = false }) => {
       ${hide ? "hidden md:flex" : ""} stretch flex-col gap-4 p-4 py-8 `}>
       {sidebarOptions.map(({ label, url, icon }) => {
         return (
-          <Link key={label} href={url}>
+          <Link onClick={closeSidebar} key={label} href={url}>
             <div
               className={`py-2 px-4 rounded-md flex items-center gap-3
             ${isActive(url) ? "bg-gray-100" : "hover:bg-gray-100"}

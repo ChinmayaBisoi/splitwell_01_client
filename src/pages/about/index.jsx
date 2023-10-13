@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const AboutPage = () => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 overflow-hidden">
       <div className="flex items-center gap-2 font-semibold">
         <p className="text-4xl">Developed with</p>
         <Heart width="28" height="28" />
@@ -20,9 +20,9 @@ const AboutPage = () => {
       <div className="flex flex-col">
         <p className="whitespace-nowrap">Github</p>
         <Link
-          className="text-blue-500"
-          href={"https://github.com/ChinmayaBisoi/todo-app-client"}>
-          https://github.com/ChinmayaBisoi/todo-app-client
+          className="text-blue-500 text-wrap"
+          href={"https://github.com/ChinmayaBisoi/splitwell_01_client"}>
+          https://github.com/ChinmayaBisoi/splitwell_01_client
         </Link>{" "}
       </div>
       <div className="flex items-center gap-1 whitespace-nowrap">
