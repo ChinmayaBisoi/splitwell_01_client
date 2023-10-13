@@ -49,7 +49,6 @@ export async function sendFriendRequest(friendUserEmailOrId) {
       for (let i = 0; i < friendRequestSnapshot.docs?.length; i++) {
         const { from, fromUserId, to, toUserId, hasAccepted } =
           friendRequestSnapshot.docs[i].data();
-        console.log(friendRequestSnapshot.docs[i].data());
         if (
           from === friendUserEmailOrId ||
           to === friendUserEmailOrId ||
@@ -146,8 +145,6 @@ export async function updateFriendRequestStatus(docId, hasAccepted) {
       updatedAt: currentTime,
       hasAccepted,
     });
-
-    console.log(`Friend request document with ID ${docId} updated.`);
 
     return {
       ok: true,

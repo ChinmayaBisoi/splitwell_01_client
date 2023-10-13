@@ -68,7 +68,6 @@ const AuthForm = ({ type = "login" }) => {
 
     await login({ email, password })
       .then((res) => {
-        console.log(res);
         if (res.ok) {
           //
           loginStateDispatch({
@@ -121,7 +120,6 @@ const AuthForm = ({ type = "login" }) => {
 
     await register({ email, password })
       .then((res) => {
-        console.log(res);
         if (res.ok) {
           //
           toast({

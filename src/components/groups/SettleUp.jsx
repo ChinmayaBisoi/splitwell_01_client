@@ -131,11 +131,6 @@ export default function SettleUp({
     setIsLoading(false);
   }
 
-  useEffect(() => {
-    console.log("ran her <<<<<");
-    console.log(selectedBalanceToSettle);
-  });
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -207,11 +202,9 @@ export default function SettleUp({
                         value={paymentAmount}
                         onChange={(e) => {
                           const newAmount = e.target.value;
-                          console.log(/^[0-9]+$/.test(newAmount));
                           const isNumericOrEmptyString =
                             /^[0-9]+$/.test(newAmount) || newAmount === "";
                           if (!isNumericOrEmptyString) return;
-                          console.log("here??");
                           setPaymentAmount(newAmount);
                         }}
                       />

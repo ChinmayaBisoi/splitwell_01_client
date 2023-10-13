@@ -92,7 +92,6 @@ export async function getOrCreateUser() {
         };
 
         await setDoc(userDocRef, userData);
-        console.log("User document created:", user.uid);
 
         return userData;
       }

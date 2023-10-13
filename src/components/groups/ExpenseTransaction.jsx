@@ -29,7 +29,6 @@ const ExpenseTransaction = ({ transaction = {}, user = {} }) => {
       total += expenseMap[email][t];
     }
 
-    console.log();
     return total;
   }
 
@@ -72,7 +71,6 @@ const ExpenseTransaction = ({ transaction = {}, user = {} }) => {
       <div
         onClick={() => {
           openModal();
-          console.log(transaction);
         }}
         className={`grid grid-cols-4 max-w-[500px] p-2 hover:bg-gray-100 cursor-pointer min-h-[76px] min-[400px]:h-auto`}>
         <div className="col-span-1 flex gap-1">

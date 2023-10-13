@@ -60,7 +60,6 @@ export async function createGroup({
 
       let alreadySentGroupInvite;
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
         const { isActive } = doc.data();
         if (isActive !== false) {
           alreadySentGroupInvite = true;
@@ -120,14 +119,12 @@ export async function createGroup({
 
     // Add the new alert document to the "Alert" collection
     await addDoc(groupCollectionRef, groupDoc);
-    console.log("Group created");
 
     return {
       ok: true,
       message: baseGroup ? "Group Invite Sent" : "Group created.",
     };
   } else {
-    console.log("No user is currently logged in.");
     throw new Error("Invalid request, User not logged in.");
   }
 }

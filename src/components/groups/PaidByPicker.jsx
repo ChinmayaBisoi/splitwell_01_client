@@ -32,10 +32,6 @@ const PaidByPicker = ({
     setOpen(false);
   }
 
-  useEffect(() => {
-    console.log(expenseKey, expense[expenseKey], tempSplitDetails);
-  });
-
   return (
     <div className="relative">
       <Button

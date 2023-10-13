@@ -64,10 +64,6 @@ const GroupDetailsPage = () => {
     fetchGroupDetails();
   }, [user, groupId]);
 
-  useEffect(() => {
-    console.log(group, transactions, balances);
-  });
-
   return (
     <div>
       {isLoadingUser && (

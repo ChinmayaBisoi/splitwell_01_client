@@ -24,10 +24,6 @@ const FriendsPage = () => {
     isLoading: loadingAllFriendRequests,
   } = useContext(FriendsContext);
 
-  useEffect(() => {
-    console.log(allFriendRequests, sentRequests, friendRequests, friends);
-  });
-
   const [processingFriendReq, setProcessingFriendReq] = useState(false);
 
   async function handleFriendRequest({ docId, hasAccepted }) {

@@ -165,12 +165,11 @@ export default function AddExpense({ groupDetails = [], user = null }) {
       });
 
       const thoseWhoWillPay = borrowers2.filter((k) => k.amount > 0);
-      console.log(borrowers2);
+
       if (thoseWhoWillPay.length > 0) {
         const thoseWhoWillReceive = borrowers2.filter((k) => k.amount < 0);
         const amountTheyWillPay =
           thoseWhoWillPay[0]?.amount ?? 0 / thoseWhoWillReceive.length;
-        console.log(thoseWhoWillPay, thoseWhoWillReceive);
         for (let m of thoseWhoWillPay) {
           for (let n of thoseWhoWillReceive) {
             membersMap[m.email][n.email] = amountTheyWillPay;

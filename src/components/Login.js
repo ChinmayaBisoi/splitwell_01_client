@@ -27,7 +27,7 @@ const Login = () => {
   async function handleLogout() {
     await signOut(auth)
       .then((res) => {
-        console.log("signout res ->", res);
+        //
       })
       .catch((err) => console.log(err));
   }

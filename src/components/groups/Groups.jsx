@@ -26,10 +26,6 @@ const Groups = () => {
     setGroupQuery(queryRef);
   }, [user]);
 
-  useEffect(() => {
-    console.log(pendingGroups);
-  });
-
   return (
     <div className="flex flex-col gap-4 md:gap-8">
       <div className="flex xs:flex-row flex-col xs:items-center xs:justify-between gap-x-4 gap-y-2 mb-4">
